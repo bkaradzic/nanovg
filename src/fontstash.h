@@ -83,16 +83,16 @@ typedef struct FONStextIter FONStextIter;
 
 typedef struct FONScontext FONScontext;
 
-// Constructor and destructor.
+// Contructor and destructor.
 FONScontext* fonsCreateInternal(FONSparams* params);
 void fonsDeleteInternal(FONScontext* s);
 
 void fonsSetErrorCallback(FONScontext* s, void (*callback)(void* uptr, int error, int val), void* uptr);
 // Returns current atlas size.
 void fonsGetAtlasSize(FONScontext* s, int* width, int* height);
-// Expands the atlas size. 
+// Expands the atlas size.
 int fonsExpandAtlas(FONScontext* s, int width, int height);
-// Resets the whole stash.
+// Reseta the whole stash.
 int fonsResetAtlas(FONScontext* stash, int width, int height);
 
 // Add fonts
@@ -137,7 +137,7 @@ void fonsDrawDebug(FONScontext* s, float x, float y);
 
 #ifdef FONTSTASH_IMPLEMENTATION
 
-#define FONS_NOTUSED(v)  (void)sizeof(v)
+#define FONS_NOTUSED(v) BX_UNUSED(v)
 
 #ifdef FONS_USE_FREETYPE
 
@@ -154,7 +154,7 @@ typedef struct FONSttFontImpl FONSttFontImpl;
 static FT_Library ftLibrary;
 
 int fons__tt_init(FONScontext *context)
-{ 
+{
 	FT_Error ftError;
         FONS_NOTUSED(context);
 	ftError = FT_Init_FreeType(&ftLibrary);
@@ -238,12 +238,19 @@ int fons__tt_getGlyphKernAdvance(FONSttFontImpl *font, int glyph1, int glyph2)
 
 #else
 
+#if 0
 #define STB_TRUETYPE_IMPLEMENTATION
+#	define STBTT_malloc(x,u) fons__tmpalloc(x,u)
+#	define STBTT_free(x,u)   fons__tmpfree(x,u)
 static void* fons__tmpalloc(size_t size, void* up);
 static void fons__tmpfree(void* ptr, void* up);
-#define STBTT_malloc(x,u)    fons__tmpalloc(x,u)
-#define STBTT_free(x,u)      fons__tmpfree(x,u)
-#include "stb_truetype.h"
+#else
+#	include <malloc.h>
+#	include <string.h>
+#endif // 0
+
+#define STBTT_DEF extern
+#include <stb/stb_truetype.h>
 
 struct FONSttFontImpl {
 	stbtt_fontinfo font;
@@ -421,6 +428,7 @@ struct FONScontext
 	void* errorUptr;
 };
 
+#if 0
 static void* fons__tmpalloc(size_t size, void* up)
 {
 	unsigned char* ptr;
@@ -446,6 +454,7 @@ static void fons__tmpfree(void* ptr, void* up)
 	// empty
 }
 
+#endif
 // Copyright (c) 2008-2010 Bjoern Hoehrmann <bjoern@hoehrmann.de>
 // See http://bjoern.hoehrmann.de/utf-8/decoder/dfa/ for details.
 
@@ -1403,7 +1412,7 @@ void fonsDrawDebug(FONScontext* stash, float x, float y)
 }
 
 float fonsTextBounds(FONScontext* stash,
-					 float x, float y, 
+					 float x, float y,
 					 const char* str, const char* end,
 					 float* bounds)
 {
@@ -1591,7 +1600,7 @@ int fonsExpandAtlas(FONScontext* stash, int width, int height)
 	height = fons__maxi(height, stash->params.height);
 
 	if (width == stash->params.width && height == stash->params.height)
-		return 1;	
+		return 1;
 
 	// Flush pending glyphs.
 	fons__flush(stash);
