@@ -16,8 +16,11 @@
 // 3. This notice may not be removed or altered from any source distribution.
 //
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <memory.h>
+
 #include "nanovg.h"
 
 #include <bx/macros.h>

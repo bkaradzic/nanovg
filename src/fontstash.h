@@ -41,7 +41,7 @@ enum FONSalign {
 enum FONSerrorCode {
 	// Font atlas is full.
 	FONS_ATLAS_FULL = 1,
-	// Scratch memory used to render glyphs is full, requested size reported in 'val', you may need to bump up FONS_SCRATCH_BUF_SIZE.		
+	// Scratch memory used to render glyphs is full, requested size reported in 'val', you may need to bump up FONS_SCRATCH_BUF_SIZE.
 	FONS_SCRATCH_FULL = 2,
 	// Calls to fonsPushState has created too large stack, if you need deep state stack bump up FONS_MAX_STATES.
 	FONS_STATES_OVERFLOW = 3,
@@ -311,7 +311,7 @@ int fons__tt_getGlyphKernAdvance(FONSttFontImpl *font, int glyph1, int glyph2)
 #endif
 
 #ifndef FONS_SCRATCH_BUF_SIZE
-#	define FONS_SCRATCH_BUF_SIZE 16000
+#	define FONS_SCRATCH_BUF_SIZE 64000
 #endif
 #ifndef FONS_HASH_LUT_SIZE
 #	define FONS_HASH_LUT_SIZE 256
