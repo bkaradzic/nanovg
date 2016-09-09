@@ -464,7 +464,6 @@ static void fons__tmpfree(void* ptr, void* up)
 
 #endif // STB_TRUETYPE_IMPLEMENTATION
 
->>>>>>> upstream/master
 // Copyright (c) 2008-2010 Bjoern Hoehrmann <bjoern@hoehrmann.de>
 // See http://bjoern.hoehrmann.de/utf-8/decoder/dfa/ for details.
 
